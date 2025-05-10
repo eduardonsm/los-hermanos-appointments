@@ -1,3 +1,3 @@
-projeto para barbearia
-los hermanos
+# projeto para barbearia
+## los hermanos
 by: Eduardo e Gleydson
