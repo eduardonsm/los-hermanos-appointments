@@ -13,3 +13,64 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  password  String
+  email     String        @unique
+  phone     String        @unique
+  status    Boolean
+  createdAt DateTime?     @default(now())
+  updatedAt DateTime?     @default(now())
+
+  appointments Appointment[] // Agendamentos do usuário
+
+  @@map("users")
+}
+
+model Barber {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  password  String
+  email     String        @unique
+  phone     String        @unique
+  status    Boolean
+  createdAt DateTime?     @default(now())
+  updatedAt DateTime?     @default(now())
+
+  appointments Appointment[] // Agendamentos do barbeiro
+
+  @@map("barbers")
+}
+
+model Service {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  price     Float
+  duration  Int // em minutos
+  createdAt DateTime?      @default(now())
+  updatedAt DateTime?      @default(now())
+
+  appointments Appointment[] // Agendamentos com esse serviço
+
+  @@map("services")
+}
+
+model Appointment {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
+  barberId  String @db.ObjectId
+  serviceId String @db.ObjectId
+  date      DateTime
+  status    String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+
+  // Relacionamentos
+  user    User    @relation(fields: [userId], references: [id])
+  barber  Barber  @relation(fields: [barberId], references: [id])
+  service Service @relation(fields: [serviceId], references: [id])
+
+  @@map("appointments")
+}
