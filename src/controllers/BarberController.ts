@@ -23,6 +23,11 @@ class BarberController {
         return { message: "barbers list"}
 
     }
+    async listAppointments(request: FastifyRequest, reply: FastifyReply){
+
+        return { message: "barbers appointments list"}
+
+    }
 
 }
 

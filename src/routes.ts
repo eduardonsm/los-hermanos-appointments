@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } from "fastify";
 import { UserController  } from "./controllers/UserController";
+import { BarberController } from "./controllers/BarberController";
 
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
@@ -23,15 +24,18 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
     // barber routes
     fastify.post("/barber", async (request: FastifyRequest, reply: FastifyReply) => {
-        return new UserController().create(request, reply);
+        return new BarberController().create(request, reply);
     })
 
     fastify.get("/barbers", async (request: FastifyRequest, reply: FastifyReply) => {
-        return new UserController().list(request, reply);   
+        return new BarberController().list(request, reply);   
      })
 
     fastify.delete("/barber", async (request: FastifyRequest, reply: FastifyReply) => {
-        return new UserController().delete(request, reply);    
+        return new BarberController().delete(request, reply);    
     })
+    fastify.get("/barbers/:barberId/appointments", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new BarberController().listAppointments(request, reply);   
+     })
 
 }
