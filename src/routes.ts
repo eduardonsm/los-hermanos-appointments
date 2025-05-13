@@ -21,4 +21,17 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
         return new UserController().delete(request, reply);    
     })
 
+    // barber routes
+    fastify.post("/barber", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new UserController().create(request, reply);
+    })
+
+    fastify.get("/barbers", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new UserController().list(request, reply);   
+     })
+
+    fastify.delete("/barber", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new UserController().delete(request, reply);    
+    })
+
 }
