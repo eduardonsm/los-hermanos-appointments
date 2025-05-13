@@ -24,7 +24,10 @@ class BarberController {
 
     }
     async listAppointments(request: FastifyRequest, reply: FastifyReply){
-
+        //o barberId vem da rota
+        // const { barberId } = request.params as { barberId: string }
+        // deve ser utlizado o service vindo dos agendamentos (pois é funcao de agendamentos)
+        // barbercontroler deve receber como parametro o agendamento service (ou controller ne na verdade)
         return { message: "barbers appointments list"}
 
     }
