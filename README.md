@@ -36,6 +36,5 @@ Essa aplicação permite:
 ---
 
 ## 🧑‍💻 Autores
-Desenvolvido por Eduardo Severo e Gleydson Fabricio
-Estudantes de Ciência da Computação 👨‍💻
+Desenvolvido por Eduardo Severo e Gleydson Fabricio<br>Estudantes de Ciência da Computação 👨‍💻
 
