@@ -8,7 +8,18 @@ class UserController {
 
     async create(request: FastifyRequest, reply: FastifyReply){
 
-        return { message: "created user"}
+        const {name, email, password, phone} = request.body as {
+            name: string, 
+            email: string,
+            password: string, 
+            phone: string
+        };
+        
+        const createUserService = new CreateUserService();
+
+        const user = await createUserService.execute({name, email, password, phone});
+
+        return user;
 
     }
 
