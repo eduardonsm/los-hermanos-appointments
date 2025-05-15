@@ -1,6 +1,8 @@
 class CreateUserService{
 
-    return "";
+    async execute(){
+        
+    }
 }
 
 export {CreateUserService}
