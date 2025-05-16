@@ -16,23 +16,23 @@ class UserController {
         };
         
         const createUserService = new CreateUserService();
-
         const user = await createUserService.execute({name, email, password, phone});
-
         return user;
 
     }
 
     async delete(request: FastifyRequest, reply: FastifyReply){
-
-        return { message: "deleted user"}
+        const {id} = request.query as { id: string };
+        const deleteUserService = new DeleteUserService();
+        const user = await deleteUserService.execute({id});
+        return reply.send(user);
 
     }
 
     async list(request: FastifyRequest, reply: FastifyReply){
-
-        return { message: "users list"}
-
+        const listUserService = new ListUserService();
+        const users = await listUserService.execute();
+        return reply.send(users);
     }
 
 }

@@ -1,7 +1,28 @@
-class DeleteUserService{
+import prismaClient from "../../prisma";
 
-    async execute(){
-        
+interface IDeleteUserRequest{
+    id: string;
+}
+class DeleteUserService{
+    async execute({id}:IDeleteUserRequest){
+        if(!id){
+            throw new Error("ID is required");
+        }
+
+        const user = await prismaClient.user.findUnique({
+            where: {
+                id: id
+            }
+        })
+        if(!user){
+            throw new Error("User not found");
+        }
+        await prismaClient.user.delete({
+            where: {
+                id: id
+            }
+        })
+        return user;
     }
     
 }
