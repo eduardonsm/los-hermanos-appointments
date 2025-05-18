@@ -7,7 +7,7 @@ import { ListUserService } from "../services/user/ListUserService";
 class UserController {
 
     async create(request: FastifyRequest, reply: FastifyReply){
-
+        const createUserService = new CreateUserService();
         const {name, email, password, phone} = request.body as {
             name: string, 
             email: string,
@@ -15,7 +15,6 @@ class UserController {
             phone: string
         };
         
-        const createUserService = new CreateUserService();
         const user = await createUserService.execute({name, email, password, phone});
         return user;
 
