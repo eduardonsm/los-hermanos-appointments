@@ -10,12 +10,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int       @id @default(autoincrement())
   name      String
   password  String
   email     String    @unique
@@ -24,13 +24,11 @@ model User {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
 
-  appointments Appointment[] // Agendamentos do usuário
-
-  @@map("users")
+  appointments Appointment[]
 }
 
 model Barber {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int       @id @default(autoincrement())
   name      String
   password  String
   email     String    @unique
@@ -39,38 +37,33 @@ model Barber {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
 
-  appointments Appointment[] // Agendamentos do barbeiro
-
-  @@map("barbers")
+  appointments Appointment[]
+  services     Service[]     @relation("BarberServices")
 }
 
 model Service {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int       @id @default(autoincrement())
   name      String
   price     Float
-  duration  Int // em minutos
+  duration  Int
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
 
-  appointments Appointment[] // Agendamentos com esse serviço
-
-  @@map("services")
+  appointments Appointment[]
+  barbers      Barber[]      @relation("BarberServices")
 }
 
 model Appointment {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String    @db.ObjectId
-  barberId  String    @db.ObjectId
-  serviceId String    @db.ObjectId
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  barberId  Int
+  serviceId Int
   date      DateTime
   status    String
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
 
-  // Relacionamentos
   user    User    @relation(fields: [userId], references: [id])
   barber  Barber  @relation(fields: [barberId], references: [id])
   service Service @relation(fields: [serviceId], references: [id])
-
-  @@map("appointments")
 }
