@@ -1,7 +1,7 @@
 import prismaClient from "../../prisma";
 
 interface IDeleteUserRequest{
-    id: string;
+    id: number;
 }
 class DeleteUserService{
     async execute({id}:IDeleteUserRequest){
