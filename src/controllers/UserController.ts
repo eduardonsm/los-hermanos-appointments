@@ -22,8 +22,12 @@ class UserController {
 
     async delete(request: FastifyRequest, reply: FastifyReply){
         const {id} = request.query as { id: string };
+        const numericId = Number(id);
+        if (isNaN(numericId)) {
+            return reply.status(400).send({ error: "Invalid ID" });
+        }
         const deleteUserService = new DeleteUserService();
-        const user = await deleteUserService.execute({id});
+        const user = await deleteUserService.execute({id: numericId});
         return reply.send(user);
 
     }

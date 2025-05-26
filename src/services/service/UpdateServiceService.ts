@@ -1,6 +1,6 @@
 import prismaClient from "../../prisma"
 interface IUpdateServiceService{
-    id: string;
+    id: number;
     name?: string;
     price?: number;
     duration?: number;

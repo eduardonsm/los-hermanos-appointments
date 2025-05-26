@@ -21,8 +21,12 @@ class ServiceController {
 
     async delete(request: FastifyRequest, reply: FastifyReply){
         const {id} = request.query as { id: string };
+        const numericId = Number(id);
+        if (isNaN(numericId)) {
+        return reply.status(400).send({ error: "Invalid ID" });
+        }
         const deleteServiceService = new DeleteServiceService();
-        const service = await deleteServiceService.execute({id});
+        const service = await deleteServiceService.execute({id: numericId});
         return reply.send(service);
 
     }
@@ -42,9 +46,12 @@ class ServiceController {
             price?: number;
             duration?: number;
         };
-
+        const numericId = Number(id);
+        if (isNaN(numericId)) {
+            return reply.status(400).send({ error: "Invalid ID" });
+        }
         const updateServiceService = new UpdateServiceService();
-        const service = await updateServiceService.execute({ id, name, price, duration });
+        const service = await updateServiceService.execute({ id: numericId, name, price, duration });
         return reply.send(service);
     }
 

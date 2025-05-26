@@ -1,6 +1,6 @@
 import prismaClient from "../../prisma"
 interface IDeleteServiceService{
-    id: string
+    id: number;
 }
 class DeleteServiceService{
 
