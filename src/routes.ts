@@ -36,6 +36,12 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     fastify.delete("/barber", async (request: FastifyRequest, reply: FastifyReply) => {
         return barberController.delete(request, reply);    
     })
+    fastify.get("/barbers/:barberId/services", async (request: FastifyRequest, reply: FastifyReply) => {
+        return barberController.listServices(request, reply);   
+     })
+    fastify.post("/barbers/:barberId/associate-services", async (request: FastifyRequest, reply: FastifyReply) => {
+        return barberController.associateServices(request, reply);   
+     })
     fastify.get("/barbers/:barberId/appointments", async (request: FastifyRequest, reply: FastifyReply) => {
         return barberController.listAppointments(request, reply);   
      })
