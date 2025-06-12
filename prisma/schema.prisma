@@ -14,57 +14,65 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Enum para status do agendamento, garantindo consistência.
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+  COMPLETED
+}
+
 model User {
-  id        Int         @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
   password  String
-  email     String      @unique
-  phone     String      @unique
+  email     String   @unique
+  phone     String   @unique
   status    Boolean
-  createdAt DateTime?   @default(now())
-  updatedAt DateTime?   @default(now())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
 
   appointments Appointment[]
 }
 
 model Barber {
-  id        Int         @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
   password  String
-  email     String      @unique
-  phone     String      @unique
+  email     String   @unique
+  phone     String   @unique
   status    Boolean
-  createdAt DateTime?   @default(now())
-  updatedAt DateTime?   @default(now())
-
-  appointments Appointment[]
-  services     Service[] @relation("BarberServices")
-}
-
-model Service {
-  id        Int         @id @default(autoincrement())
-  name      String
-  price     Float
-  duration  Int
-  createdAt DateTime?   @default(now())
-  updatedAt DateTime?   @default(now())
-
-  appointments Appointment[]
-  barbers      Barber[] @relation("BarberServices")
-}
-
-
-model Appointment {
-  id        Int       @id @default(autoincrement())
-  userId    Int
-  barberId  Int
-  serviceId Int
-  date      DateTime
-  status    String
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
 
-  user    User    @relation(fields: [userId], references: [id])
-  barber  Barber  @relation(fields: [barberId], references: [id])
-  service Service @relation(fields: [serviceId], references: [id])
+  appointments Appointment[]
+  services     Service[]     @relation("BarberServices")
+}
+
+model Service {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Float
+  duration  Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+
+  appointments Appointment[]
+  barbers      Barber[]      @relation("BarberServices")
+}
+
+model Appointment {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  barberId  Int
+  date      DateTime 
+  status    AppointmentStatus @default(PENDING)
+  totalPrice   Float
+  totalDuration Int 
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+  barber    Barber   @relation(fields: [barberId], references: [id])
+  services  Service[]
 }
