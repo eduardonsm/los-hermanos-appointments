@@ -155,9 +155,10 @@ exports.Prisma.AppointmentScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   barberId: 'barberId',
-  serviceId: 'serviceId',
   date: 'date',
   status: 'status',
+  totalPrice: 'totalPrice',
+  totalDuration: 'totalDuration',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -176,7 +177,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.AppointmentStatus = exports.$Enums.AppointmentStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  CANCELED: 'CANCELED',
+  COMPLETED: 'COMPLETED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',

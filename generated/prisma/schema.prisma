@@ -14,6 +14,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Enum para status do agendamento, garantindo consistência.
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+  COMPLETED
+}
+
 model User {
   id        Int       @id @default(autoincrement())
   name      String
@@ -54,16 +62,17 @@ model Service {
 }
 
 model Appointment {
-  id        Int       @id @default(autoincrement())
-  userId    Int
-  barberId  Int
-  serviceId Int
-  date      DateTime
-  status    String
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @default(now())
+  id            Int               @id @default(autoincrement())
+  userId        Int
+  barberId      Int
+  date          DateTime
+  status        AppointmentStatus @default(PENDING)
+  totalPrice    Float
+  totalDuration Int
+  createdAt     DateTime?         @default(now())
+  updatedAt     DateTime?         @default(now())
 
-  user    User    @relation(fields: [userId], references: [id])
-  barber  Barber  @relation(fields: [barberId], references: [id])
-  service Service @relation(fields: [serviceId], references: [id])
+  user     User      @relation(fields: [userId], references: [id])
+  barber   Barber    @relation(fields: [barberId], references: [id])
+  services Service[]
 }
