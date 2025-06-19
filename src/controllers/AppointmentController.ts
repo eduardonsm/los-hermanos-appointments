@@ -50,7 +50,6 @@ class AppointmentController {
         const appointments = await listByBarberService.execute({ barberId: numericBarberId });
         return reply.send(appointments);
     }
-
 }
 
 export { AppointmentController }
