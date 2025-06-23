@@ -1,10 +1,8 @@
 import prismaClient from "../../prisma"
-interface ListByBarberServiceRequest {
-    barberId: number;
-}
+import { ListByBarberDTO } from "../../DTO/ListByBarberServiceDTO";
 class ListByBarberService{
 
-    async execute({ barberId }: ListByBarberServiceRequest){
+    async execute({ barberId }: ListByBarberDTO){
 
         const appointments = await prismaClient.appointment.findMany({
             where: { barberId }
