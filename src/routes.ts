@@ -25,6 +25,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     fastify.delete("/user", async (request: FastifyRequest, reply: FastifyReply) => {
         return userController.delete(request, reply);    
     })
+    fastify.get("/user/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+        return userController.getUserById(request, reply);
+    })
 
     // barber routes
     fastify.post("/barber", async (request: FastifyRequest, reply: FastifyReply) => {
@@ -35,6 +38,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
      })
     fastify.delete("/barber", async (request: FastifyRequest, reply: FastifyReply) => {
         return barberController.delete(request, reply);    
+    })
+    fastify.get("/barber/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+        return barberController.getBarberById(request, reply);    
     })
     fastify.get("/barbers/:barberId/services", async (request: FastifyRequest, reply: FastifyReply) => {
         return barberController.listServices(request, reply);   
