@@ -4,6 +4,7 @@ import { ListBarberService } from "../services/barber/ListBarberService";
 import { DeleteBarberService } from "../services/barber/DeleteBarberService";
 import { AssociateServicesBarberService } from "../services/barber/AssociateServicesBarberService";
 import { ListServicesBarberService } from "../services/barber/ListServicesBarberService";
+import { GetBarberByIdService } from "../services/barber/GetBarberByIdService";
 import { AppointmentController } from "./AppointmentController";
 
 
@@ -78,6 +79,20 @@ class BarberController {
     async listAppointments(request: FastifyRequest, reply: FastifyReply){
         const appointmentController = new AppointmentController()
         return appointmentController.listByBarber(request, reply)
+    }
+
+    async getBarberById(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+        const numericId = Number(id);
+        if (isNaN(numericId)) {
+            return reply.status(400).send({ error: "Invalid ID" });
+        }
+        const getBarberByIdService = new GetBarberByIdService();
+        const barber = await getBarberByIdService.execute(numericId);
+        if (!barber) {
+            return reply.status(404).send({ error: "Barber not found" });
+        }
+        return reply.send(barber);
     }
 }
 

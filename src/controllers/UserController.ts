@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { CreateUserService } from "../services/user/CreateUserService";
 import { DeleteUserService } from "../services/user/DeleteUserService";
 import { ListUserService } from "../services/user/ListUserService";
-
+import { GetUserByIdService } from "../services/user/GetUserByIdService";
 
 class UserController {
 
@@ -38,6 +38,19 @@ class UserController {
         return reply.send(users);
     }
 
+    async getUserById(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+        const numericId = Number(id);
+        if (isNaN(numericId)) {
+            return reply.status(400).send({ error: "Invalid ID" });
+        }
+        const getUserById = new GetUserByIdService();
+        const user = await getUserById.execute(numericId);
+        if (!user) {
+            return reply.status(404).send({ error: "User not found" });
+        }
+        return reply.send(user);
+    }
 }
 
 export { UserController }

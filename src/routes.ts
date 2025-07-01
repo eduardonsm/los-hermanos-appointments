@@ -25,6 +25,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     fastify.delete("/user", async (request: FastifyRequest, reply: FastifyReply) => {
         return userController.delete(request, reply);    
     })
+    fastify.get("/user/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+        return userController.getUserById(request, reply);
+    })
 
     // barber routes
     fastify.post("/barber", async (request: FastifyRequest, reply: FastifyReply) => {
@@ -35,6 +38,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
      })
     fastify.delete("/barber", async (request: FastifyRequest, reply: FastifyReply) => {
         return barberController.delete(request, reply);    
+    })
+    fastify.get("/barber/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+        return barberController.getBarberById(request, reply);    
     })
     fastify.get("/barbers/:barberId/services", async (request: FastifyRequest, reply: FastifyReply) => {
         return barberController.listServices(request, reply);   
@@ -52,6 +58,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
      fastify.get("/services", async (request: FastifyRequest, reply: FastifyReply) => {
          return serviceController.list(request, reply);
      })
+     fastify.get("/service/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+         return serviceController.getServiceById(request, reply);
+     })
      fastify.delete("/service", async (request: FastifyRequest, reply: FastifyReply) => {
          return serviceController.delete(request, reply);
      })
@@ -64,6 +73,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     })
     fastify.get("/appointments", async (request: FastifyRequest, reply: FastifyReply) => {
         return appointmentController.list(request, reply);
+    })
+    fastify.get("/appointment/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+        return appointmentController.getAppointmentById(request, reply);
     })
     fastify.delete("/appointment", async (request: FastifyRequest, reply: FastifyReply) => {
         return appointmentController.delete(request, reply);    
