@@ -58,6 +58,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
      fastify.get("/services", async (request: FastifyRequest, reply: FastifyReply) => {
          return serviceController.list(request, reply);
      })
+     fastify.get("/service/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+         return serviceController.getServiceById(request, reply);
+     })
      fastify.delete("/service", async (request: FastifyRequest, reply: FastifyReply) => {
          return serviceController.delete(request, reply);
      })
@@ -70,6 +73,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     })
     fastify.get("/appointments", async (request: FastifyRequest, reply: FastifyReply) => {
         return appointmentController.list(request, reply);
+    })
+    fastify.get("/appointment/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+        return appointmentController.getAppointmentById(request, reply);
     })
     fastify.delete("/appointment", async (request: FastifyRequest, reply: FastifyReply) => {
         return appointmentController.delete(request, reply);    

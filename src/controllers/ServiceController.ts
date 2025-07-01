@@ -3,6 +3,7 @@ import { CreateServiceService } from "../services/service/CreateServiceService";
 import { DeleteServiceService } from "../services/service/DeleteServiceService";
 import { ListServiceService } from "../services/service/ListServiceService";
 import { UpdateServiceService } from "../services/service/UpdateServiceService";
+import { GetServiceByIdService } from "../services/service/GetServiceByIdService";
 
 class ServiceController {
 
@@ -38,6 +39,20 @@ class ServiceController {
         return reply.send(services);
 
     }
+    async getServiceById(request: FastifyRequest, reply: FastifyReply){
+
+        const { id } = request.params as { id: string };
+        const numericId = Number(id);
+        if (isNaN(numericId)) {
+            return reply.status(400).send({ error: "Invalid ID" });
+        }
+
+        const getServiceByIdService = new GetServiceByIdService();
+        const service = await getServiceByIdService.execute({ id: numericId });
+        return reply.send(service);
+
+    }
+
     async update(request: FastifyRequest, reply: FastifyReply){
 
         const { id, name, price, duration } = request.body as {
