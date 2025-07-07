@@ -4,6 +4,8 @@ import { DeleteAppointmentService } from "../services/appointment/DeleteAppointm
 import { ListAppointmentService } from "../services/appointment/ListAppointmentService";
 import { ListByBarberService } from "../services/appointment/ListByBarberService";
 import { GetAppointmentByIdService } from "../services/appointment/GetAppointmentByIdService";
+import { AppointmentStatus } from "../../generated/prisma";
+import { UpdateAppointmentService } from "../services/appointment/UpdateAppointmentService";
 
 
 class AppointmentController {
@@ -63,6 +65,33 @@ class AppointmentController {
         }
         const appointments = await listByBarberService.execute({ barberId: numericBarberId });
         return reply.send(appointments);
+    }
+    async update(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+        const numericId = Number(id);
+
+        if (isNaN(numericId)) {
+            return reply.status(400).send({ error: "Invalid ID format" });
+        }
+
+        const dataToUpdate = request.body as {
+            date?: Date;
+            status?: AppointmentStatus;
+        };
+
+        try {
+            const updateAppointmentService = new UpdateAppointmentService();
+            const updatedAppointment = await updateAppointmentService.execute({
+                id: numericId,
+                data: dataToUpdate,
+            });
+
+            return reply.send(updatedAppointment);
+
+        } catch (e) {
+            console.error(e);
+            return reply.status(500).send({ error: "Failed to update appointment" });
+        }
     }
 }
 

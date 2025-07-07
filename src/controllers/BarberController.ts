@@ -6,6 +6,7 @@ import { AssociateServicesBarberService } from "../services/barber/AssociateServ
 import { ListServicesBarberService } from "../services/barber/ListServicesBarberService";
 import { GetBarberByIdService } from "../services/barber/GetBarberByIdService";
 import { AppointmentController } from "./AppointmentController";
+import { UpdateBarberService } from "../services/barber/UpdateBarberService";
 
 
 class BarberController {
@@ -93,6 +94,34 @@ class BarberController {
             return reply.status(404).send({ error: "Barber not found" });
         }
         return reply.send(barber);
+    }
+    async update(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+        const numericId = Number(id);
+
+        if (isNaN(numericId)) {
+            return reply.status(400).send({ error: "Invalid ID format" });
+        }
+
+        const dataToUpdate = request.body as {
+            name?: string;
+            email?: string;
+            phone?: string;
+        };
+
+        try {
+            const updateBarberService = new UpdateBarberService();
+            const updatedBarber = await updateBarberService.execute({
+                id: numericId,
+                data: dataToUpdate,
+            });
+
+            return reply.send(updatedBarber);
+
+        } catch (e) {
+            console.error(e);
+            return reply.status(500).send({ error: "Failed to update barber" });
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 import prismaClient from "../../prisma";
-import { ListByBarberService } from "./ListByBarberService";
+import {validateTimeSlot} from "../../utils/validadeTimeSlot"
 interface CreateAppointmentRequest {
     userId: number;
     barberId: number;
@@ -32,7 +32,7 @@ class CreateAppointmentService {
             },
             { totalPrice: 0, totalDuration: 0 }
         );
-        await this.validateTimeSlot(barberId, date, totalDuration);
+        await validateTimeSlot(barberId, date, totalDuration);
         const appointment = await prismaClient.appointment.create({
             data: {
                 userId,
@@ -52,33 +52,7 @@ class CreateAppointmentService {
         return appointment;
     }
 
-    /**
-     * Valida se o barbeiro existe e se ele oferece todos os serviços solicitados.
-     * @param barberId ID do barbeiro
-     * @param date Data do agendamento
-     * @param totalDuration Duração total dos serviços solicitados
-     */
-    private async validateTimeSlot(barberId: number, date: Date, totalDuration: number) {
-        const listbybarber = new ListByBarberService();
-        const appointments = await listbybarber.execute({ barberId });
-        const newAppointmentStart: Date = new Date(date);
-        const newAppointmentEnd: Date = new Date(newAppointmentStart.getTime() + totalDuration * 60000);
-
-        for (const appointment of appointments) {
-            const existingAppointmentStart: Date = new Date(appointment.date);
-            const existingAppointmentEnd: Date = new Date(existingAppointmentStart.getTime() + appointment.totalDuration * 60000); 
-
-            if (existingAppointmentStart > newAppointmentEnd) {
-                return true;
-            } else {
-                if (existingAppointmentEnd < newAppointmentStart) {
-                    return true;
-                } else {
-                    throw new Error(`Appointment conflict, Interval Time Invalid`);
-                }
-            }
-        }
-    }
+    
     /**
      * Valida se o horario do appointment esta disponivel para aquele barbeiro.
      * @param barberId ID do barbeiro
