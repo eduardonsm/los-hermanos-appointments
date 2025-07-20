@@ -3,16 +3,22 @@ import { UserController  } from "./controllers/UserController";
 import { BarberController } from "./controllers/BarberController";
 import { AppointmentController } from "./controllers/AppointmentController";
 import { ServiceController } from "./controllers/ServiceController";
+import { AuthController } from "./controllers/AuthController";
 
 const userController = new UserController();
 const barberController = new BarberController();
 const appointmentController = new AppointmentController();
 const serviceController = new ServiceController();
+const authController = new AuthController();
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
-    
-    fastify.get("/test", async (request: FastifyRequest, reply: FastifyReply) => {
+
+    fastify.get("/test",{preHandler: [fastify.authenticate]}, async (request: FastifyRequest, reply: FastifyReply) => {
         return { ok: true };
+    })
+    //login
+    fastify.post("/login", async (request: FastifyRequest, reply: FastifyReply) => {
+        return authController.login(request, reply);
     })
 
     // user routes
