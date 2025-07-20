@@ -20,6 +20,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     fastify.post("/login", async (request: FastifyRequest, reply: FastifyReply) => {
         return authController.login(request, reply);
     })
+    fastify.delete("/logout", async (request: FastifyRequest, reply: FastifyReply) => {
+        return authController.logout(request, reply);
+    })
 
     // user routes
     fastify.post("/user", async (request: FastifyRequest, reply: FastifyReply) => {

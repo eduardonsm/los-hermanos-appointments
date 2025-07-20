@@ -38,5 +38,9 @@ class AuthController {
         return { accessToken: token }
 
     }
+    async logout(request: FastifyRequest, reply: FastifyReply) {
+        reply.clearCookie('access_token');
+        return reply.status(200).send({ message: 'Logout successful' });
+    }
 }
 export {AuthController}
