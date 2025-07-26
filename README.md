@@ -22,9 +22,9 @@ Essa aplicação permite:
 
 - **Node.js**
 - **Fastify**
-- **Prisma ORM** (com MongoDB)
+- **Prisma ORM** (com PostgreSQL)
 - **TypeScript**
-- **JWT (autenticação)** (a desenvolver)
+- **JWT (autenticação)**
 
 ### Frontend 
 (a desenvolver)
