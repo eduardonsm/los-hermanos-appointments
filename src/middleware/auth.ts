@@ -2,11 +2,11 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { FastifyJWT } from '@fastify/jwt'
 
 export async function authenticate (req: FastifyRequest, reply: FastifyReply)  {
-  const token = req.cookies.access_token
-  if (!token) {
-    return reply.status(401).send({ message: 'Authentication required' })
+  try {
+    await req.jwtVerify()
+  } catch (err) {
+    console.error('Authentication error:', err);
+    reply.status(401).send({ message: 'Invalid Token' })
   }
-  const decoded = req.jwt.verify<FastifyJWT['tokenPayload']>(token)
-  req.user = decoded
  }
- 
+
