@@ -7,7 +7,12 @@ import {FastifyRequest, FastifyReply } from "fastify";
 
 const app = fastify({ logger: true });
 // jwt
-app.register(fjwt, { secret: 'supersecretcode-CHANGE_THIS-USE_ENV_FILE' })
+app.register(fjwt, { secret: 'supersecretcode-CHANGE_THIS-USE_ENV_FILE',
+  cookie:{
+    cookieName: 'access_token',
+    signed: false,
+  }
+ })
 app.addHook('preHandler', (req, res, next) => {
   req.jwt = app.jwt
   return next()
@@ -17,18 +22,6 @@ app.register(fCookie, {
  secret: 'some-secret-key',
  hook: 'preHandler',
 })
-//authentication
-app.decorate(
- 'authenticate',
- async (req: FastifyRequest, reply: FastifyReply) => {
-  const token = req.cookies.access_token
-  if (!token) {
-    return reply.status(401).send({ message: 'Authentication required' })
-  }
-  const decoded = req.jwt.verify<FastifyJWT['tokenPayload']>(token)
-  req.user = decoded
- },
-)
 const start = async () => {
   await app.register(cors, {
     origin: true,
