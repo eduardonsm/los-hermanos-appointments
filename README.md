@@ -27,7 +27,6 @@ Essa aplicação permite:
 - **JWT (autenticação)**
 
 ### Frontend 
-(a desenvolver)
 - **React.js**
 - **TailwindCSS**
 - **Axios**
