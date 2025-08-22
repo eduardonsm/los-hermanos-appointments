@@ -76,6 +76,12 @@ export default function Login() {
           </form>
           <button type="submit" onClick={handleLogout}> LOGOUT</button>
           {mensagem && <p className="text-xl bg-green-600 mt-4">{mensagem}</p>}
+          <Link
+            to="/homeuser"
+            className="bg-amber-500 text-white py-2 px-4 rounded hover:bg-amber-700"
+          >
+            Home User
+          </Link>
         </div>
       </main>
     </div>
