@@ -1,19 +1,25 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import { api } from "../services/api";
-import {jwtDecode} from "jwt-decode";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault(); // evita o reload da página
     alert(`Email: ${email}\nSenha: ${senha}`);
-    api.post('/login',{
+    const response = await api.post('/login',{
       email: email,
       password: senha
     })
+    if (response.status === 200 || response.status === 204) {
+      console.log("deu certo")
+      const myrole = await api.get("/me", { withCredentials: true });
+      console.log("role:", myrole.data.role);
+    }
+
+    
   }
   const [mensagem, setMensagem] = useState("");
 
@@ -22,18 +28,7 @@ export default function Login() {
   try {
     const response = await api.delete('/logout');
     console.log("Logout response:", response);
-    
-
-  interface TokenData {
-    id: string;
-    role: string;
-  }
-
-  const token = localStorage.getItem("token"); // ou cookie
-  if (token) {
-    const data = jwtDecode<TokenData>(token);
-    console.log("role:", data.role);
-  }
+  
     if (response.status === 200 || response.status === 204) {
       setMensagem("Logout realizado com sucesso! ✅ ");
     } else {
@@ -47,23 +42,14 @@ export default function Login() {
 
   return (
     <div className="w-full min-h-screen bg-amber-50 flex justify-center px-4">
-      <main className="my-10 w-full md:max-w-2xl">
-        <h1 className="text-xl">Welcome to the Los Hermanos Appointment</h1>
-        <div className="flex flex-col md:flex-row items-center justify-center mt-10">
-          <h1>Here is login</h1>
-          <Link
-            to="/register"
-            className="bg-amber-500 text-white py-2 px-4 rounded hover:bg-amber-700"
-          >
-            Register
-          </Link>
-          <h1 className="text-4xl text-white font-medium">Clientes</h1>
-
+      <main className="my-10 w-full items-center justify-center md:max-w-2xl">
+        <h1 className="text-2xl text-center">Welcome to the Login Los Hermanos Appointment</h1>
+        <div className="flex flex-row md:flex-row items-center justify-center mt-10">
           <form
-            className="flex flex-col gap-4 my-6"
+            className="flex flex-col gap-3 my-6 bg-amber-200 rounded-2xl p-10"    
             onSubmit={handleSubmit}
           >
-            <label className="text-white font-medium">Email:</label>
+            <label className="text-gray font-medium">Email:</label>
             <input
               type="email"
               placeholder="Digite seu email..."
@@ -72,7 +58,7 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
             />
 
-            <label className="text-white font-medium">Password:</label>
+            <label className="text-gray font-medium">Password:</label>
             <input
               type="password"
               placeholder="Digite seu password..."
@@ -87,14 +73,27 @@ export default function Login() {
               className="cursor-pointer w-full p-2 bg-green-500 rounded font-medium"
             />
           </form>
-          <button type="submit" onClick={handleLogout}> LOGOUT</button>
+            <div 
+            className="flex flex-col gap-3 p-10  bg-amber-200 rounded-2xl m-10"
+            >
+              <h1 className="text-xl text-center text-gray font-medium">Ainda não tem conta?</h1>
+              <h1 className="text-xl text-center text-amber-600">Cadastre-se</h1>
+              <Link
+                to="/user/register"
+                className="cursor-pointer w-full p-2 bg-green-500 rounded font-medium"
+                >
+                Sou Cliente, quero me cadastrar
+              </Link>
+              <Link
+                to="/barber/register"
+                className="cursor-pointer w-full p-2 bg-green-500 rounded font-medium"
+                >
+                Sou barbeiro, quero me cadastrar
+              </Link>
+            </div>
+            
+          
           {mensagem && <p className="text-xl bg-green-600 mt-4">{mensagem}</p>}
-          <Link
-            to="/homeuser"
-            className="bg-amber-500 text-white py-2 px-4 rounded hover:bg-amber-700"
-          >
-            Home User
-          </Link>
         </div>
       </main>
     </div>
