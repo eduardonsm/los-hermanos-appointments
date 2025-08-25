@@ -1,5 +1,5 @@
 
-export default function HomeBarber() {
+export default function BarberHome() {
   
 
   return (

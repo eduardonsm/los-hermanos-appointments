@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 
-export default function HomeUser() {
+export default function UserHome() {
   
-
   return (
     <div className="w-full min-h-screen bg-amber-50 flex justify-center px-4">
       <main className="my-10 w-full md:max-w-2xl">
@@ -13,7 +12,7 @@ export default function HomeUser() {
             to="/barbers"
             className="bg-amber-500 text-white py-2 px-4 rounded hover:bg-amber-700"
           >
-            VER BARBER CADASTRADOS
+            VER BARBEIROS CADASTRADOS
           </Link>
           <Link
             to="/users"

@@ -1,25 +1,26 @@
 import { useState } from "react";
 import { api } from "../services/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault(); // evita o reload da página
-    alert(`Email: ${email}\nSenha: ${senha}`);
     const response = await api.post('/login',{
       email: email,
       password: senha
     })
     if (response.status === 200 || response.status === 204) {
-      console.log("deu certo")
       const myrole = await api.get("/me", { withCredentials: true });
-      console.log("role:", myrole.data.role);
+      if(myrole.data.role == "BARBER"){
+        navigate("/barber/home")
+      } else{
+        navigate("/user/home")
+      }
     }
-
-    
   }
   const [mensagem, setMensagem] = useState("");
 

@@ -2,7 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import UserRegister from "./pages/user/UserRegister"; 
 import BarberRegister from "./pages/barber/BarberRegister"; 
-import HomeUser from "./pages/user/HomeUser";
+import UserHome from "./pages/user/UserHome";
+import BarberHome from "./pages/barber/BarberHome";
 import UserView from "./pages/user/UserView";
 import MainLayout from "./layouts/Mainlayout";
 
@@ -13,9 +14,10 @@ export default function App(){
         <Route element={<MainLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/user/register" element={<UserRegister />} />
+          <Route path="/user/home" element={<UserHome />} />
           <Route path="/barber/register" element={<BarberRegister />} />
-          <Route path="/homeuser" element={<HomeUser />} />
           <Route path="/users" element={<UserView />} />
+          <Route path="/barber/home" element={<BarberHome />} />
         </Route>
       </Routes>
     </BrowserRouter>
