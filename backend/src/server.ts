@@ -25,7 +25,8 @@ app.register(fCookie, {
 const start = async () => {
   await app.register(cors, {
     origin: true,
-    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
+    credentials: true
    }); 
 
   await app.register(routes);

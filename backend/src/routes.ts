@@ -18,13 +18,16 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     fastify.get("/test",{preHandler: [authenticate, authorize(['BARBER'])]}, async (request: FastifyRequest, reply: FastifyReply) => {
         return { ok: true };
     })
-    //login
+    //auth
     fastify.post("/login", async (request: FastifyRequest, reply: FastifyReply) => {
         return authController.login(request, reply);
     })
     fastify.delete("/logout",{preHandler: [authenticate]}, async (request: FastifyRequest, reply: FastifyReply) => {
         return authController.logout(request, reply);
     })
+    fastify.get("/me",{preHandler: [authenticate]}, async (request: FastifyRequest, reply: FastifyReply) => {
+        return authController.me(request, reply)
+    });
 
     // user routes
     fastify.post("/user", async (request: FastifyRequest, reply: FastifyReply) => {

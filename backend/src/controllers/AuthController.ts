@@ -42,5 +42,14 @@ class AuthController {
         reply.clearCookie('access_token');
         return reply.status(200).send({ message: 'Logout successful' });
     }
+    async me(request: FastifyRequest, reply: FastifyReply) {
+        try {
+            await request.jwtVerify();
+            return { id: request.user.id, role: request.user.role };
+        }
+        catch (err) {
+            return reply.status(401).send({ error: "Unauthorized" });
+        }
+    }
 }
 export {AuthController}
