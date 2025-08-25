@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { api } from "../../services/api";
 
@@ -13,20 +13,17 @@ interface UserProps {
 }
 export default function UserView() {
     
-    // const [users, setusers] = useState<UserProps[]>([])
-    const users = [
-        {id:"1",name:"junior",email:"junior@gmail.com",phone:"99034902",password:"senha123",status:true,created_at:"ontem"} as UserProps,
-        {id:"2",name:"bianca",email:"janior@gmail.com",phone:"99345802",password:"senha4523",status:false,created_at:"hoje"} as UserProps,
-    ]
-    // useEffect(() => {loadUsers()},[])
+    const [users, setusers] = useState<UserProps[]>([])
+   
+    useEffect(() => {loadUsers()},[])
 
-    // async function loadUsers() {
-    //     const response = await api.get('/users');
-    //     setusers(await response.data);
-    // }
+    async function loadUsers() {
+        const response = await api.get('/users');
+        setusers(await response.data);
+    }
 
   return (
-    <div className="w-full min-h-screen bg-amber-50 flex justify-center px-4">
+      <div className="w-full min-h-screen bg-amber-50 flex justify-center px-4">
       <main className="my-10 w-full md:max-w-2xl">
         <h1 className="text-xl">Welcome to the Los Hermanos Appointment</h1>
         <div className="flex flex-col md:flex-row items-center justify-center mt-10">

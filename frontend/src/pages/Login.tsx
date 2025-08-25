@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { api } from "../services/api";
+import {jwtDecode} from "jwt-decode";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -21,8 +22,20 @@ export default function Login() {
   try {
     const response = await api.delete('/logout');
     console.log("Logout response:", response);
+    
+
+  interface TokenData {
+    id: string;
+    role: string;
+  }
+
+  const token = localStorage.getItem("token"); // ou cookie
+  if (token) {
+    const data = jwtDecode<TokenData>(token);
+    console.log("role:", data.role);
+  }
     if (response.status === 200 || response.status === 204) {
-      setMensagem("Logout realizado com sucesso! ✅");
+      setMensagem("Logout realizado com sucesso! ✅ ");
     } else {
       setMensagem(`Algo estranho: status ${response.status}`);
     }
