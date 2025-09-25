@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export default function BarberHome() {
   
@@ -8,10 +9,16 @@ export default function BarberHome() {
         <h1 className="text-xl">Welcome to the Los Hermanos Appointment</h1>
         <div className="flex flex-col md:flex-row items-center justify-center mt-10">
           
-          VER MEUS AGENDAMENTOS
-          ATRIBUIR SERVICOS
-          VER MEUS SERVICOS
-          VER MEU PERFIL
+          <div className="flex flex-col gap-3 p-10  bg-amber-200 rounded-2xl m-10">
+            <h1 className="text-xl text-center text-gray font-medium">What do you want to do today?</h1>
+            <Link className="cursor-pointer w-full p-2 bg-green-500 rounded font-medium"
+            to="/barber/appointments" >My Appointments</Link>
+            <Link className="cursor-pointer w-full p-2 bg-green-500 rounded font-medium"
+            to="/" >My Services</Link>
+            <Link className="cursor-pointer w-full p-2 bg-green-500 rounded font-medium"
+            to="/" >Associate Services</Link>
+            
+          </div>
         </div>
       </main>
     </div>
