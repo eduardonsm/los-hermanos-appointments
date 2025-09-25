@@ -6,7 +6,11 @@ class GetAppointmentByIdService {
 
     async execute({ id }: getAppointmentByIdRequest) {
         const appointment = await prismaClient.appointment.findUnique({
-            where: { id }
+            where: { id },
+            include: {
+                services: true,
+                
+            }
         });
         return appointment;
     }
